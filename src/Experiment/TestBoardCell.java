@@ -1,4 +1,4 @@
-package experiment;
+package Experiment;
 public class TestBoardCell{
     
 }
