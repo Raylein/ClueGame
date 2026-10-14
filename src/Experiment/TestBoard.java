@@ -1,21 +1,21 @@
 package Experiment;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class TestBoard {
     //Make a TestBoard
     public TestBoard(){}
     //Calculate targets
-    public void calcTargets(TestBoardCell startCell,int pathlength){}
+    public void calcTargets(TestBoardCell startCell, int pathlength){}
     //Get the current cell
     public TestBoardCell getCell(int row, int col){
-        TestBoardCell testCell = new TestBoardCell();
+        TestBoardCell testCell = new TestBoardCell(row,col);
         return testCell;
     }
     //Get all the targets from calcTargets();
     public Set<TestBoardCell> getTargets(){
-        Set<TestBoardCell> testSet=new TreeSet<TestBoardCell>();
-        return testSet;
+        Set<TestBoardCell> HashSet =new HashSet<TestBoardCell>();
+        return HashSet;
     }
 }
