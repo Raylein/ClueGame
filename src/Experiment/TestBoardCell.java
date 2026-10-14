@@ -1,5 +1,5 @@
 package experiment;
-
+    
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +23,7 @@ public class TestBoardCell {
         return adjList;
     }
 
-    public void setOccupied(occupied){
+    public void setOccupied(boolean occupied){
         occupied = true;
     }
 
@@ -31,7 +31,13 @@ public class TestBoardCell {
         return occupied;
     }
 
-    publicvoid setRoom
+    public void setRoom(boolean room){
+        room = true;
+    }
+
+    public boolean getRoom(){
+        return room;
+    }
 
     // TODO: Add the room and occupied setters/getters.
 }
