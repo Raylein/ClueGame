@@ -23,21 +23,19 @@ public class TestBoardCell {
         return adjList;
     }
 
-    public void setOccupied(boolean occupied){
-        occupied = true;
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
     }
 
-    public boolean getOccupied(){
+    public boolean getOccupied() {
         return occupied;
     }
 
-    public void setRoom(boolean room){
-        room = true;
+    public void setRoom(boolean room) {
+        this.room = room;
     }
 
-    public boolean getRoom(){
+    public boolean getRoom() {
         return room;
     }
-
-    // TODO: Add the room and occupied setters/getters.
 }
