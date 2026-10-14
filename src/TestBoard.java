@@ -1,3 +1,5 @@
 import TestBoardCell.java;
 
-public 
+public class TestBoard{
+    
+}
