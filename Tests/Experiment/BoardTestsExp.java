@@ -16,6 +16,26 @@ class BoardTestsExp {
     }
 
     @Test
+    void AdjacencyCalcTopLeft(){
+        assertEquals(2,testBoard.getCell(0,0).getAdjList().size(),"Cell 0,0 does not have an adjacency list");
+    }
+    @Test
+    void AdjacencyCalcBotRight(){
+        assertEquals(2,testBoard.getCell(3,3).getAdjList().size(),"Cell 3,3 does not have an adjacency list");
+    }
+    @Test
+    void AdjacencyCalcEdgeRight(){
+        assertEquals(3,testBoard.getCell(1,3).getAdjList().size(),"Cell 1,3 does not have an adjacency list");
+    }
+    @Test
+    void AdjacencyCalcEdgeLeft(){
+        assertEquals(3,testBoard.getCell(3,1).getAdjList().size(),"Cell 3,0 does not have an adjacency list");
+    }
+    @Test
+    void AdjacencyCalcMiddle(){
+        assertEquals(4,testBoard.getCell(2,2).getAdjList().size(),"Cell 3,0 does not have an adjacency list");
+    }
+    @Test
     void calculatesTargetsOnEmptyFourByFourBoard() {
         testBoard.calcTargets(testBoard.getCell(0, 0), 3);
 
