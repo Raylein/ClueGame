@@ -1,4 +1,4 @@
-package Experiment;
+package clueGame;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,11 +8,11 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTestsExp {
-    private TestBoard testBoard;
+    private Board testBoard;
 
     @BeforeEach
     void setUp() {
-        testBoard = new TestBoard();
+        testBoard = new Board();
     }
 
     @Test

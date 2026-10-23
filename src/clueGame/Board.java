@@ -1,16 +1,16 @@
-package Experiment;
+package clueGame;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class TestBoard {
-    private final TestBoardCell[][] grid = new TestBoardCell[4][4];
-    private final Set<TestBoardCell> targets = new HashSet<>();
+public class Board {
+    private final BoardCell[][] grid = new BoardCell[4][4];
+    private final Set<BoardCell> targets = new HashSet<>();
 
-    public TestBoard() {
+    public Board() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
-                grid[row][column] = new TestBoardCell(row, column);
+                grid[row][column] = new BoardCell(row, column);
             }
         }
 
@@ -32,7 +32,7 @@ public class TestBoard {
         }
     }
 
-    public void calcTargets(TestBoardCell startCell, int pathlength) {
+    public void calcTargets(BoardCell startCell, int pathlength) {
         if (pathlength < 0) {
             throw new IllegalArgumentException("Path length cannot be negative");
         }
@@ -40,14 +40,14 @@ public class TestBoard {
         findTargets(startCell, pathlength, new HashSet<>(Set.of(startCell)));
     }
 
-    private void findTargets(TestBoardCell currentCell, int remainingSteps,
-                             Set<TestBoardCell> visitedCells) {
+    private void findTargets(BoardCell currentCell, int remainingSteps,
+                             Set<BoardCell> visitedCells) {
         if (remainingSteps == 0) {
             targets.add(currentCell);
             return;
         }
 
-        for (TestBoardCell adjacentCell : currentCell.getAdjList()) {
+        for (BoardCell adjacentCell : currentCell.getAdjList()) {
             if (adjacentCell.getOccupied() || visitedCells.contains(adjacentCell)) {
                 continue;
             }
@@ -63,11 +63,11 @@ public class TestBoard {
         }
     }
 
-    public TestBoardCell getCell(int row, int col) {
+    public BoardCell getCell(int row, int col) {
         return grid[row][col];
     }
 
-    public Set<TestBoardCell> getTargets() {
+    public Set<BoardCell> getTargets() {
         return targets;
     }
 }

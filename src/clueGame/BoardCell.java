@@ -1,25 +1,25 @@
-package Experiment;
+package clueGame;
     
 import java.util.HashSet;
 import java.util.Set;
 
-public class TestBoardCell {
+public class BoardCell {
     private final int row;
     private final int column;
-    private final Set<TestBoardCell> adjList = new HashSet<>();
+    private final Set<BoardCell> adjList = new HashSet<>();
     private boolean room;
     private boolean occupied;
 
-    public TestBoardCell(int row, int column) {
+    public BoardCell(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
-    public void addAdjacency(TestBoardCell cell) {
+    public void addAdjacency(BoardCell cell) {
         adjList.add(cell);
     }
 
-    public Set<TestBoardCell> getAdjList() {
+    public Set<BoardCell> getAdjList() {
         return adjList;
     }
 
