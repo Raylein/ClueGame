@@ -12,6 +12,8 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+
 public class FileInitTests306 {
 	// Constants that I will use to test whether the file was loaded correctly
 	public static final int LEGEND_SIZE = 11;
@@ -23,7 +25,7 @@ public class FileInitTests306 {
 	private static Board board;
 
 	@BeforeAll
-	public static void setUp() {
+	public static void setUp() throws FileNotFoundException {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
