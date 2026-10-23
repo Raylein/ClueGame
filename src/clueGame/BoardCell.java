@@ -42,7 +42,7 @@ public class BoardCell {
     public void setRoomLabel(boolean roomLabel){
         this.roomLabel = roomLabel;
     }
-    public boolean isRoomLabel(){
+    public boolean isLabel(){
         return roomLabel;
     }
     public void setRoomCenter(boolean roomCenter){
