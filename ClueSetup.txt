@@ -1,0 +1,13 @@
+// Rooms and room cards
+Room, Conservatory, C
+Room, Kitchen, K
+Room, Projection Room, P
+Room, Dining Room, D
+Room, Laundry Room, L
+Room, Foyer, F
+Room, Graveyard, G
+Room, Bathroom, B
+Room, Ballroom, BA
+// other spaces on the board
+Space, Unused, X
+Space, Walkway, W
