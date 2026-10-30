@@ -6,9 +6,9 @@ package clueGame;
 
 // Doing a static import allows me to write assertEquals rather than
 // Assert.assertEquals
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ public class FileInitTests306 {
 	private static Board board;
 
 	@BeforeAll
-	public static void setUp() throws FileNotFoundException {
+	public static void setUp() throws FileNotFoundException, BadConfigFormatException {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
@@ -85,7 +85,7 @@ public class FileInitTests306 {
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		Assert.assertEquals(17, numDoors);
+		assertEquals(17, numDoors);
 	}
 
 	// Test a few room cells to ensure the room initial is correct.

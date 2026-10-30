@@ -63,7 +63,7 @@ class BoardTestsExp {
 
     @Test
     void enteringRoomUsesAllRemainingMovementPoints() {
-        testBoard.getCell(0, 1).setRoom(true);
+        testBoard.getCell(0, 1).setIsRoom(true);
 
         testBoard.calcTargets(testBoard.getCell(0, 0), 2);
 

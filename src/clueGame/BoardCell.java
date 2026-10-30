@@ -8,12 +8,13 @@ public class BoardCell {
     private final int column;
     private final Set<BoardCell> adjList = new HashSet<>();
     private char initial;
-    private DoorDirection doorDirection;
+    private DoorDirection doorDirection=DoorDirection.NONE;
     private boolean roomLabel;
     private boolean roomCenter;
     private char secretPassage;
     private boolean occupied;
-    private boolean room;
+    private boolean isRoom;
+    private Room room;
 
     public BoardCell(int row, int column) {
         this.row = row;
@@ -28,8 +29,8 @@ public class BoardCell {
         return adjList;
     }
 
-    public void setDoorDirection(String direction){
-        doorDirection = DoorDirection.valueOf(direction);
+    public void setDoorDirection(DoorDirection direction){
+        this.doorDirection = direction;
     }
     public DoorDirection getDoorDirection(){
         return doorDirection;
@@ -63,11 +64,27 @@ public class BoardCell {
         this.occupied = occupied;
     }
     public boolean getOccupied() {return occupied;}
-    public void setRoom(boolean room) {
-        this.room = room;
+    public void setIsRoom(boolean room) {
+        this.isRoom = room;
     }
 
-    public boolean getRoom() {
-        return room;
+    public boolean getIsRoom() {
+        return isRoom;
     }
+    public boolean isDoorway(){
+        if(this.getDoorDirection()!=DoorDirection.NONE){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public void setRoom(Room room){
+        this.room=room;
+    }
+
+    public Room getRoom(){
+        return this.room;
+    }
+
 }
