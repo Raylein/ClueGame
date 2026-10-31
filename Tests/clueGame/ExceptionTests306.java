@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
-import clueGame.BadConfigFormatException;
 
 public class ExceptionTests306 {
 

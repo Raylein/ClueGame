@@ -8,9 +8,11 @@ public enum DoorDirection {
     NONE("None");
 
     private String label;
+
     private DoorDirection(String label){
         this.label=label;
     }
+
     public String getLabel(){
         return label;
     }

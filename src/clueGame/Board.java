@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Board {
     private final Set<BoardCell> targets = new HashSet<>();
-    private int numRows=0;
+    private int numRows;
     private int numColumns;
     private BoardCell[][] grid;
     private String layoutConfigFile;
@@ -38,7 +38,7 @@ public class Board {
                 continue;
             }
 
-            if (adjacentCell.getRoom() || remainingSteps == 1) {
+            if (adjacentCell.getIsRoom() || remainingSteps == 1) {
                 targets.add(adjacentCell);
                 continue;
             }
@@ -78,65 +78,84 @@ public class Board {
             while (sc.hasNextLine()){
                 String line = sc.nextLine();
                 if(line.isEmpty()) continue;
-                if(line.contains("//")||line.contains("Space")) continue;
+                if(line.contains("//")) continue;
 
                 String[] parts = line.split(", ");
-                Room room = new Room(parts[2]);
-                roomMap.put(parts[3].charAt(0),room);
+                Room room = new Room(parts[1]);
+                roomMap.put(parts[2].charAt(0),room);
             }
             sc.close();
         }
     }
-    public void loadLayoutConfig() throws FileNotFoundException{
+    public void setGrid() throws FileNotFoundException, BadConfigFormatException {
+        numRows=0;
+        int tempColumn=-1;
         try(Scanner sc = new Scanner(new File(layoutConfigFile))){
-            int tempColumn=0;
             while(sc.hasNextLine()){
-                String line = sc.nextLine();
-                if(line.isEmpty()){throw new BadConfigFormatException("Bad Format");}
-                String[] parts = line.split(",");
+                String[] parts = sc.nextLine().split(",");
                 numRows+=1;
-                numColumns = parts.length;
-                if(numRows>1 && numColumns!=tempColumn){
-                    throw new BadConfigFormatException("Bad Format");
-                }
-                tempColumn=parts.length;
 
-                for(int i=0;i<parts.length;i++){
-                    BoardCell cell = new BoardCell(numRows,i);
-                    if(parts[i].contains("*")){
-                        cell.setRoomCenter(true);
-                    }
-                    if(parts[i].contains("#")){
-                        cell.setRoomLabel(true);
-                    }
-                    switch(parts[i]){
-                        case String s when s.contains("^")->{
-                            cell.setDoorDirection("Up");
-                        }
-                        case String s when s.contains("v")->{
-                            cell.setDoorDirection("Down");
-                        }
-                        case String s when s.contains("<")->{
-                            cell.setDoorDirection("Left");
-                        }
-                        case String s when s.contains(">")-> {
-                            cell.setDoorDirection("Right");
-                        }
-                        default -> {
-                            cell.setDoorDirection("None");
-                        }
-                    }
-                    grid[numRows-1][i]=cell;
+                if(tempColumn == -1){
+                    tempColumn = parts.length;
+                }else if(parts.length != tempColumn){
+                    throw new BadConfigFormatException();
                 }
-                
-                
+                numColumns=tempColumn;
             }
+            sc.close();
+            grid=new BoardCell[numRows][numColumns];
         } catch (BadConfigFormatException e) {
-            throw new RuntimeException(e);
+            throw new BadConfigFormatException();
         }
     }
-    public void initialize() throws FileNotFoundException {
-        loadSetupConfig();
-        loadLayoutConfig();
+    public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException{
+        setGrid();
+        int tempRow=0;
+        try(Scanner sc = new Scanner(new File(layoutConfigFile))){
+            while(sc.hasNextLine()){
+                String[] cells = sc.nextLine().split(",");
+                for(int i=0;i<numColumns;i++){
+                    BoardCell cell = new BoardCell(tempRow,i);
+                    cell.setInitial(cells[i].charAt(0));
+                    cell.setRoom(roomMap.get(cells[i].charAt(0)));
+                    if(!roomMap.containsKey(cells[i].charAt(0))){
+                        throw new BadConfigFormatException();
+                    }
+                    if(cells[i].length()>=2){
+                        switch (cells[i].charAt(1)){
+                            case '*'-> {
+                                cell.setRoomCenter(true);
+                                cell.getRoom().setCenterCell(cell);
+                            }
+                            case '#'-> {
+                                cell.setRoomLabel(true);
+                                cell.getRoom().setLabelCell(cell);
+                            }
+                            case '^'-> cell.setDoorDirection(DoorDirection.UP);
+                            case '<'-> cell.setDoorDirection(DoorDirection.LEFT);
+                            case 'v'-> cell.setDoorDirection(DoorDirection.DOWN);
+                            case '>'-> cell.setDoorDirection(DoorDirection.RIGHT);
+                            default -> cell.setSecretPassage(cells[i].charAt(1));
+                        }
+                    }
+                    grid[tempRow][i]=cell;
+                }
+                tempRow+=1;
+            }
+            sc.close();
+        } catch (BadConfigFormatException e){
+            throw new BadConfigFormatException();
+        }
+
+    }
+    public void initialize() throws FileNotFoundException, BadConfigFormatException {
+            loadSetupConfig();
+            loadLayoutConfig();
+    }
+    public Room getRoom(char room){
+        return roomMap.get(room);
+    }
+    public Room getRoom(BoardCell cell){
+        return cell.getRoom();
     }
 }
