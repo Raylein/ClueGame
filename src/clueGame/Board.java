@@ -73,7 +73,7 @@ public class Board {
         this.setupConfigFile=setupConfigFile;
     }
 
-    public void loadSetupConfig() throws FileNotFoundException {
+    public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
         try(Scanner sc = new Scanner(new File(setupConfigFile))){
             while (sc.hasNextLine()){
                 String line = sc.nextLine();
@@ -81,10 +81,15 @@ public class Board {
                 if(line.contains("//")) continue;
 
                 String[] parts = line.split(", ");
+                if((!parts[0].equalsIgnoreCase("Room"))&&(!parts[0].equalsIgnoreCase("Space"))){
+                    throw new BadConfigFormatException();
+                }
                 Room room = new Room(parts[1]);
                 roomMap.put(parts[2].charAt(0),room);
             }
             sc.close();
+        } catch (BadConfigFormatException e) {
+            throw new BadConfigFormatException();
         }
     }
     public void setGrid() throws FileNotFoundException, BadConfigFormatException {
@@ -136,6 +141,7 @@ public class Board {
                             case 'v'-> cell.setDoorDirection(DoorDirection.DOWN);
                             case '>'-> cell.setDoorDirection(DoorDirection.RIGHT);
                             default -> cell.setSecretPassage(cells[i].charAt(1));
+
                         }
                     }
                     grid[tempRow][i]=cell;
