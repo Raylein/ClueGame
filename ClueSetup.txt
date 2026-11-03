@@ -7,7 +7,8 @@ Room, Laundry Room, L
 Room, Foyer, F
 Room, Graveyard, G
 Room, Bathroom, B
-Room, Ballroom, BA
+Room, Ballroom, A
+Room, Recreation Room, R
 // other spaces on the board
 Space, Unused, X
 Space, Walkway, W

@@ -11,12 +11,25 @@ public class Board {
     private String layoutConfigFile;
     private String setupConfigFile;
     private Map<Character,Room> roomMap=new HashMap<>();
+
+//Start of singleton pattern
     private static Board theInstance;
-
-
-    public Board() {
+    private Board() {
         super();
     }
+
+    public static Board getInstance(){
+        if(theInstance==null){
+            theInstance=new Board();
+        }
+        return theInstance;
+    }
+
+    public void initialize() throws FileNotFoundException, BadConfigFormatException {
+        loadSetupConfig();
+        loadLayoutConfig();
+    }
+//end of singleton pattern
 
     public void calcTargets(BoardCell startCell, int pathlength) {
         if (pathlength < 0) {
@@ -61,12 +74,7 @@ public class Board {
     public int getNumColumns(){return numColumns;}
     public Map<Character,Room> getRoomMap(){return roomMap;}
 
-    public static Board getInstance(){
-        if(theInstance==null){
-            theInstance=new Board();
-        }
-        return theInstance;
-    }
+
 
     public void setConfigFiles(String layoutConfigFile,String setupConfigFile){
         this.layoutConfigFile=layoutConfigFile;
@@ -154,10 +162,7 @@ public class Board {
         }
 
     }
-    public void initialize() throws FileNotFoundException, BadConfigFormatException {
-            loadSetupConfig();
-            loadLayoutConfig();
-    }
+
     public Room getRoom(char room){
         return roomMap.get(room);
     }
