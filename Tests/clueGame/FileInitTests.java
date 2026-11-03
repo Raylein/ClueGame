@@ -72,7 +72,6 @@ public class FileInitTests {
 
     @Test
     public void testRooms() {
-        System.out.println(1);
         BoardCell cell = board.getCell( 15, 2);
         Room room = board.getRoom( cell ) ;
         assertTrue( room != null );
@@ -81,7 +80,6 @@ public class FileInitTests {
         assertFalse( cell.isRoomCenter() ) ;
         assertFalse( cell.isDoorway()) ;
 
-        System.out.println(2);
         cell = board.getCell(19, 9);
         room = board.getRoom( cell ) ;
         assertTrue( room != null );
@@ -89,7 +87,6 @@ public class FileInitTests {
         assertTrue( cell.isLabel() );
         assertTrue( room.getLabelCell() == cell );
 
-        System.out.println(3);
         cell = board.getCell(20, 9);
         room = board.getRoom( cell ) ;
         assertTrue( room != null );
@@ -97,7 +94,6 @@ public class FileInitTests {
         assertTrue( cell.isRoomCenter() );
         assertTrue( room.getCenterCell() == cell );
 
-        System.out.println(4);
         cell = board.getCell(7, 9);
         room = board.getRoom( cell ) ;
         // Note for our purposes, walkways and closets are rooms
@@ -106,7 +102,6 @@ public class FileInitTests {
         assertFalse( cell.isRoomCenter() );
         assertFalse( cell.isLabel() );
 
-        System.out.println(5);
         cell = board.getCell(21, 6);
         room = board.getRoom( cell ) ;
         assertTrue( room != null );

@@ -32,7 +32,7 @@ class BoardAdjTargetTest {
 
     @BeforeEach
     void setUp() throws FileNotFoundException, BadConfigFormatException {
-        board = new Board();
+        board.getInstance();
         board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
         board.initialize();
     }

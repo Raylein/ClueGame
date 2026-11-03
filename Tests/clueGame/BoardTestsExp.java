@@ -12,7 +12,7 @@ class BoardTestsExp {
 
     @BeforeEach
     void setUp() {
-        testBoard = new Board();
+        testBoard.getInstance();
     }
 
     @Test
