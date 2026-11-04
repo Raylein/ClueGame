@@ -6,11 +6,9 @@ import java.util.*;
 
 public class Board {
     private final Set<BoardCell> targets = new HashSet<>();
-    private int numRows;
-    private int numColumns;
+    private int numRows, numColumns;
     private BoardCell[][] grid;
-    private String layoutConfigFile;
-    private String setupConfigFile;
+    private String layoutConfigFile, setupConfigFile;
     private Map<Character, Room> roomMap = new HashMap<>();
 
     //Start of singleton pattern

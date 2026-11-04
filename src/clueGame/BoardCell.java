@@ -4,16 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BoardCell {
-    private final int row;
-    private final int column;
+    private final int row, column;
+    private boolean roomLabel, roomCenter, occupied, isRoom;
     private final Set<BoardCell> adjList = new HashSet<>();
-    private char initial;
+    private char initial, secretPassage;
     private DoorDirection doorDirection = DoorDirection.NONE;
-    private boolean roomLabel;
-    private boolean roomCenter;
-    private char secretPassage;
-    private boolean occupied;
-    private boolean isRoom;
     private Room room;
 
     public BoardCell(int row, int column) {
