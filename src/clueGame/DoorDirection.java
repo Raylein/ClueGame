@@ -9,11 +9,11 @@ public enum DoorDirection {
 
     private String label;
 
-    private DoorDirection(String label){
-        this.label=label;
+    private DoorDirection(String label) {
+        this.label = label;
     }
 
-    public String getLabel(){
+    public String getLabel() {
         return label;
     }
 }

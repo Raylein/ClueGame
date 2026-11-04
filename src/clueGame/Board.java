@@ -1,6 +1,7 @@
 package clueGame;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Board {
@@ -10,17 +11,18 @@ public class Board {
     private BoardCell[][] grid;
     private String layoutConfigFile;
     private String setupConfigFile;
-    private Map<Character,Room> roomMap=new HashMap<>();
+    private Map<Character, Room> roomMap = new HashMap<>();
 
-//Start of singleton pattern
+    //Start of singleton pattern
     private static Board theInstance;
+
     private Board() {
         super();
     }
 
-    public static Board getInstance(){
-        if(theInstance==null){
-            theInstance=new Board();
+    public static Board getInstance() {
+        if (theInstance == null) {
+            theInstance = new Board();
         }
         return theInstance;
     }
@@ -70,103 +72,113 @@ public class Board {
         return targets;
     }
 
-    public int getNumRows(){return numRows;}
-    public int getNumColumns(){return numColumns;}
-    public Map<Character,Room> getRoomMap(){return roomMap;}
+    public int getNumRows() {
+        return numRows;
+    }
+
+    public int getNumColumns() {
+        return numColumns;
+    }
+
+    public Map<Character, Room> getRoomMap() {
+        return roomMap;
+    }
 
 
-
-    public void setConfigFiles(String layoutConfigFile,String setupConfigFile){
-        this.layoutConfigFile=layoutConfigFile;
-        this.setupConfigFile=setupConfigFile;
+    public void setConfigFiles(String layoutConfigFile, String setupConfigFile) {
+        this.layoutConfigFile = layoutConfigFile;
+        this.setupConfigFile = setupConfigFile;
     }
 
     public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
-        try(Scanner sc = new Scanner(new File(setupConfigFile))){
-            while (sc.hasNextLine()){
+        try (Scanner sc = new Scanner(new File(setupConfigFile))) {
+            while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                if(line.isEmpty()) continue;
-                if(line.contains("//")) continue;
+                if (line.isEmpty()) continue;
+                if (line.contains("//")) continue;
 
                 String[] parts = line.split(", ");
-                if((!parts[0].equalsIgnoreCase("Room"))&&(!parts[0].equalsIgnoreCase("Space"))){
+                if ((!parts[0].equalsIgnoreCase("Room")) && (!parts[0].equalsIgnoreCase("Space"))) {
                     throw new BadConfigFormatException();
                 }
                 Room room = new Room(parts[1]);
-                roomMap.put(parts[2].charAt(0),room);
+                roomMap.put(parts[2].charAt(0), room);
             }
             sc.close();
         } catch (BadConfigFormatException e) {
             throw new BadConfigFormatException();
         }
     }
-    public void setGrid() throws FileNotFoundException, BadConfigFormatException {
-        numRows=0;
-        int tempColumn=-1;
-        try(Scanner sc = new Scanner(new File(layoutConfigFile))){
-            while(sc.hasNextLine()){
-                String[] parts = sc.nextLine().split(",");
-                numRows+=1;
 
-                if(tempColumn == -1){
+    public void setGrid() throws FileNotFoundException, BadConfigFormatException {
+        numRows = 0;
+        int tempColumn = -1;
+        try (Scanner sc = new Scanner(new File(layoutConfigFile))) {
+            while (sc.hasNextLine()) {
+                String[] parts = sc.nextLine().split(",");
+                numRows += 1;
+
+                if (tempColumn == -1) {
                     tempColumn = parts.length;
-                }else if(parts.length != tempColumn){
+                } else if (parts.length != tempColumn) {
                     throw new BadConfigFormatException();
                 }
-                numColumns=tempColumn;
+                numColumns = tempColumn;
             }
             sc.close();
-            grid=new BoardCell[numRows][numColumns];
+            grid = new BoardCell[numRows][numColumns];
         } catch (BadConfigFormatException e) {
             throw new BadConfigFormatException();
         }
     }
-    public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException{
+
+    public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException {
         setGrid();
-        int tempRow=0;
-        try(Scanner sc = new Scanner(new File(layoutConfigFile))){
-            while(sc.hasNextLine()){
+        int tempRow = 0;
+        try (Scanner sc = new Scanner(new File(layoutConfigFile))) {
+            while (sc.hasNextLine()) {
                 String[] cells = sc.nextLine().split(",");
-                for(int i=0;i<numColumns;i++){
-                    BoardCell cell = new BoardCell(tempRow,i);
+                for (int i = 0; i < numColumns; i++) {
+                    BoardCell cell = new BoardCell(tempRow, i);
                     cell.setInitial(cells[i].charAt(0));
                     cell.setRoom(roomMap.get(cells[i].charAt(0)));
-                    if(!roomMap.containsKey(cells[i].charAt(0))){
+                    if (!roomMap.containsKey(cells[i].charAt(0))) {
                         throw new BadConfigFormatException();
                     }
-                    if(cells[i].length()>=2){
-                        switch (cells[i].charAt(1)){
-                            case '*'-> {
+                    if (cells[i].length() >= 2) {
+                        switch (cells[i].charAt(1)) {
+                            case '*' -> {
                                 cell.setRoomCenter(true);
                                 cell.getRoom().setCenterCell(cell);
                             }
-                            case '#'-> {
+                            case '#' -> {
                                 cell.setRoomLabel(true);
                                 cell.getRoom().setLabelCell(cell);
                             }
-                            case '^'-> cell.setDoorDirection(DoorDirection.UP);
-                            case '<'-> cell.setDoorDirection(DoorDirection.LEFT);
-                            case 'v'-> cell.setDoorDirection(DoorDirection.DOWN);
-                            case '>'-> cell.setDoorDirection(DoorDirection.RIGHT);
+                            case '^' -> cell.setDoorDirection(DoorDirection.UP);
+                            case '<' -> cell.setDoorDirection(DoorDirection.LEFT);
+                            case 'v' -> cell.setDoorDirection(DoorDirection.DOWN);
+                            case '>' -> cell.setDoorDirection(DoorDirection.RIGHT);
                             default -> cell.setSecretPassage(cells[i].charAt(1));
 
                         }
                     }
-                    grid[tempRow][i]=cell;
+                    grid[tempRow][i] = cell;
                 }
-                tempRow+=1;
+                tempRow += 1;
             }
             sc.close();
-        } catch (BadConfigFormatException e){
+        } catch (BadConfigFormatException e) {
             throw new BadConfigFormatException();
         }
 
     }
 
-    public Room getRoom(char room){
+    public Room getRoom(char room) {
         return roomMap.get(room);
     }
-    public Room getRoom(BoardCell cell){
+
+    public Room getRoom(BoardCell cell) {
         return cell.getRoom();
     }
 }
