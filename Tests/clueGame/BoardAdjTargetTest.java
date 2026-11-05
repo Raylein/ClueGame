@@ -33,7 +33,7 @@ class BoardAdjTargetTest {
         board.initialize();
     }
 
-    //This tests sees if there is a way ut of the room from the center of a room
+    //This tests sees if there is a way out of the room from the center of a room
     @Test
     void roomCenterConnectsToDoors() {
         assertEquals(Set.of(board.getCell(4, 8)), adj(board, 4, 15));
