@@ -11,6 +11,7 @@ public class Board {
     private String layoutConfigFile;
     private String setupConfigFile;
     private Map<Character,Room> roomMap=new HashMap<>();
+    private final Set<Character> roomInitials = new HashSet<>();
 
 //Start of singleton pattern
     private static Board theInstance;
@@ -28,6 +29,8 @@ public class Board {
     public void initialize() throws FileNotFoundException, BadConfigFormatException {
         loadSetupConfig();
         loadLayoutConfig();
+        calcAdjacencies();
+
     }
 //end of singleton pattern
 
@@ -38,7 +41,7 @@ public class Board {
         targets.clear();
         findTargets(startCell, pathlength, new HashSet<>(Set.of(startCell)));
     }
-
+    //Finds what type of room it is and if it occupied
     private void findTargets(BoardCell currentCell, int remainingSteps,
                              Set<BoardCell> visitedCells) {
         if (remainingSteps == 0) {
@@ -47,11 +50,20 @@ public class Board {
         }
 
         for (BoardCell adjacentCell : currentCell.getAdjList()) {
-            if (adjacentCell.getOccupied() || visitedCells.contains(adjacentCell)) {
+            if (visitedCells.contains(adjacentCell)) {
                 continue;
             }
 
-            if (adjacentCell.getIsRoom() || remainingSteps == 1) {
+            if (adjacentCell.getIsRoom()) {
+                targets.add(adjacentCell);
+                continue;
+            }
+
+            if(adjacentCell.getOccupied()){
+                continue;
+            }
+
+            if (remainingSteps == 1){
                 targets.add(adjacentCell);
                 continue;
             }
@@ -59,6 +71,60 @@ public class Board {
             visitedCells.add(adjacentCell);
             findTargets(adjacentCell, remainingSteps - 1, visitedCells);
             visitedCells.remove(adjacentCell);
+        }
+    }
+
+    //Adjacency function needed to be used for the tests
+    private void calcAdjacencies() {
+        Map<Character, BoardCell> centers = new HashMap<>();
+        for (BoardCell[] row : grid) {
+            for (BoardCell cell : row) {
+                if (cell.isRoomCenter()) {
+                    centers.put(cell.getInitial(), cell);
+                }
+            }
+        }
+        int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        for (int r = 0; r < numRows; r++) {
+            for (int c = 0; c < numColumns; c++) {
+                BoardCell cell = grid[r][c];
+                char initial = cell.getInitial();
+
+                if (initial == 'W') {
+
+                    for (int[] d : dirs) {
+                        int nr = r + d[0], nc = c + d[1];
+                        if (nr >= 0 && nr < numRows && nc >= 0 && nc < numColumns
+                                && grid[nr][nc].getInitial() == 'W') {
+                            cell.addAdjacency(grid[nr][nc]);
+                        }
+                    }
+
+                    if (cell.isDoorway()) {
+                        int nr = r, nc = c;
+                        switch (cell.getDoorDirection()) {
+                            case UP -> nr--;
+                            case DOWN -> nr++;
+                            case LEFT -> nc--;
+                            case RIGHT -> nc++;
+                            default -> { }
+                        }
+                        if (nr >= 0 && nr < numRows && nc >= 0 && nc < numColumns) {
+                            BoardCell center = centers.get(grid[nr][nc].getInitial());
+                            if (center != null) {
+                                cell.addAdjacency(center);
+                                center.addAdjacency(cell);
+                            }
+                        }
+                    }
+                } else if (cell.getSecretPassage() != '\0' && roomInitials.contains(initial)) {
+                    BoardCell from = centers.get(initial);
+                    BoardCell to = centers.get(cell.getSecretPassage());
+                    if (from != null && to != null) {
+                        from.addAdjacency(to);
+                    }
+                }
+            }
         }
     }
 
@@ -75,13 +141,16 @@ public class Board {
     public Map<Character,Room> getRoomMap(){return roomMap;}
 
 
-
+    //Sets up the config
     public void setConfigFiles(String layoutConfigFile,String setupConfigFile){
         this.layoutConfigFile=layoutConfigFile;
         this.setupConfigFile=setupConfigFile;
     }
 
+    //loads up the config
     public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
+        roomMap.clear();
+        roomInitials.clear();
         try(Scanner sc = new Scanner(new File(setupConfigFile))){
             while (sc.hasNextLine()){
                 String line = sc.nextLine();
@@ -94,6 +163,9 @@ public class Board {
                 }
                 Room room = new Room(parts[1]);
                 roomMap.put(parts[2].charAt(0),room);
+                if (parts[0].equalsIgnoreCase("Room")){
+                    roomInitials.add(parts[2].charAt(0));
+                }
             }
             sc.close();
         } catch (BadConfigFormatException e) {
@@ -131,6 +203,7 @@ public class Board {
                     BoardCell cell = new BoardCell(tempRow,i);
                     cell.setInitial(cells[i].charAt(0));
                     cell.setRoom(roomMap.get(cells[i].charAt(0)));
+                    cell.setIsRoom(roomInitials.contains(cells[i].charAt(0)));
                     if(!roomMap.containsKey(cells[i].charAt(0))){
                         throw new BadConfigFormatException();
                     }

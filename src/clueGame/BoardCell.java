@@ -16,6 +16,7 @@ public class BoardCell {
     private boolean isRoom;
     private Room room;
 
+    //Sorts the cells by rows and columns
     public BoardCell(int row, int column) {
         this.row = row;
         this.column = column;

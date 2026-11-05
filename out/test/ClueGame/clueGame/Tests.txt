@@ -1,0 +1,16 @@
+For testDoorDirections
+9,4 is a left doorway on board
+7,6 is an up doorway on board
+4,8 is a right doorway on board
+7,14 is a down doorway on board
+7,9 is a spot with no doorway on board
+
+For testNumberofDoorways
+there are 18 doorways total on board
+
+For testRooms
+15,2 is a spot in the kitchen on board
+19,9 is the Foyers label cell
+20,9 is the Foyers center cell
+7,9 is a walkway cell
+21,6 is an Unused cell
