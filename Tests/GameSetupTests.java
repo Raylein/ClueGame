@@ -41,6 +41,16 @@ public class GameSetupTests {
     @Test
     public void loadRoomCards(){
         Card[] roomCards = board.getRoomCards();
+        assertEquals("Conservatory",roomCards[0].getCardName());
+        assertEquals("Kitchen",roomCards[1].getCardName());
+        assertEquals("Projection Room",roomCards[2].getCardName());
+        assertEquals("Dining Room",roomCards[3].getCardName());
+        assertEquals("Laundry Room",roomCards[4].getCardName());
+        assertEquals("Foyer",roomCards[5].getCardName());
+        assertEquals("Graveyard",roomCards[6].getCardName());
+        assertEquals("Bathroom",roomCards[7].getCardName());
+        assertEquals("Ballroom",roomCards[8].getCardName());
+        assertEquals("Recreation Room",roomCards[9].getCardName());
     }
 
 
