@@ -31,6 +31,11 @@ public class GameSetupTests {
     @Test
     public void loadWeaponCards(){
         Card[] weaponCards = board.getWeaponCards();
+        assertEquals("Mr. L",weaponCards[0].getCardName());
+        assertEquals("Poltergust 3000",weaponCards[1].getCardName());
+        assertEquals("Fire Flower", weaponCards[2].getCardName());
+        assertEquals("Poisoned Mushroom",weaponCards[3].getCardName());
+        assertEquals("Blue Shell",weaponCards[4].getCardName());
     }
 
     @Test
