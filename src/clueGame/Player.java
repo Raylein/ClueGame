@@ -4,14 +4,13 @@ import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Player {
+public abstract class Player {
     private String name;
-    private Color color;
-    private int row;
-    private int column;
+    private String color;
+    private int row, column;
     private Set<Card> hand = new HashSet<>();
 
-    public Player(String name, Color color, int row, int column){
+    public Player(String name, String color, int row, int column){
         this.name = name;
         this.color = color;
         this.row = row;
@@ -25,7 +24,7 @@ public class Player {
         return name;
     }
 
-    public Color getColor(){
+    public String getColor(){
         return color;
     }
 

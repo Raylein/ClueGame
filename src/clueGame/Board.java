@@ -5,13 +5,14 @@ import java.util.*;
 
 public class Board {
     private final Set<BoardCell> targets = new HashSet<>();
-    private int numRows;
-    private int numColumns;
+    private int numRows,numColumns;
     private BoardCell[][] grid;
-    private String layoutConfigFile;
-    private String setupConfigFile;
+    private String layoutConfigFile, setupConfigFile;
     private Map<Character,Room> roomMap=new HashMap<>();
     private final Set<Character> roomInitials = new HashSet<>();
+    private Card[] availableDeck,peopleCards,weaponCards,roomCards;
+    private Set<Player> nonPlayerCharacters=new HashSet<>();
+    private Player playerCharacter;
 
 //Start of singleton pattern
     private static Board theInstance;
@@ -153,18 +154,31 @@ public class Board {
         roomInitials.clear();
         try(Scanner sc = new Scanner(new File(setupConfigFile))){
             while (sc.hasNextLine()){
+                int tempInt=0;
                 String line = sc.nextLine();
                 if(line.isEmpty()) continue;
                 if(line.contains("//")) continue;
-
                 String[] parts = line.split(", ");
-                if((!parts[0].equalsIgnoreCase("Room"))&&(!parts[0].equalsIgnoreCase("Space"))){
+                if((!parts[0].equalsIgnoreCase("Room"))&&(!parts[0].equalsIgnoreCase("Space"))&&
+                        (!parts[0].equalsIgnoreCase("Character"))){
                     throw new BadConfigFormatException();
                 }
-                Room room = new Room(parts[1]);
-                roomMap.put(parts[2].charAt(0),room);
-                if (parts[0].equalsIgnoreCase("Room")){
-                    roomInitials.add(parts[2].charAt(0));
+
+                if(parts[0].equalsIgnoreCase("Room")||parts[0].equalsIgnoreCase("Space")) {
+                    Room room = new Room(parts[1]);
+                    roomMap.put(parts[2].charAt(0), room);
+                    if (parts[0].equalsIgnoreCase("Room")) {
+                        roomInitials.add(parts[2].charAt(0));
+                    }
+                }
+                if(parts[0].equalsIgnoreCase("Character")){
+                    if (tempInt==0){
+                        playerCharacter = new HumanPlayer(parts[1],parts[2],0,0);
+                    }
+                    else{
+                        ComputerPlayer computer = new ComputerPlayer(parts[1],parts[2],tempInt,0);
+                        nonPlayerCharacters.add(computer);
+                    }
                 }
             }
             sc.close();
@@ -242,4 +256,6 @@ public class Board {
     public Room getRoom(BoardCell cell){
         return cell.getRoom();
     }
+
+    private void DeckSetup(){};
 }
