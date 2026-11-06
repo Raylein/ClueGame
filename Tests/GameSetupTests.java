@@ -13,5 +13,4 @@ public class GameSetupTests {
     /*Deal cards to the Answer and the players
     (all cards dealt, players have roughly same # of cards, no card dealt twice)
      */
-    //Hello
 }
