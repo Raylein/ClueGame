@@ -1,5 +1,9 @@
+import org.junit.jupiter.api.Test;
+
 public class GameSetupTests {
     // Load people and weapons from ClueSetup.txt and ensure the data was loaded properly.
+    @Test
+
 
 
     /*Create Player class with human and computer child classes.
