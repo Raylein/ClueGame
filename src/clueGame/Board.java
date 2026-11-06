@@ -285,5 +285,13 @@ public class Board {
         return roomCards;
     }
 
+    public Player getPlayerCharacter(){
+        return playerCharacter;
+    }
+
+    public Set<Player> getNonPlayerCharacters(){
+        return nonPlayerCharacters;
+    }
+
     private void DeckSetup(){};
 }

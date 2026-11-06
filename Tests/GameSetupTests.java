@@ -1,12 +1,15 @@
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.Card;
+import clueGame.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GameSetupTests {
     private static Board board;
@@ -26,6 +29,15 @@ public class GameSetupTests {
         assertEquals("Mario",peopleCards[3].getCardName());
         assertEquals("Professor E. Gadd",peopleCards[4].getCardName());
         assertEquals("Bowser",peopleCards[5].getCardName());
+    }
+
+    @Test
+    public void loadPeople(){
+        assertNotNull(board.getPlayerCharacter());
+        Set<Player> nonPlayers=board.getNonPlayerCharacters();
+        for(Player p : nonPlayers){
+            assertNotNull(p);
+        }
     }
 
     @Test
