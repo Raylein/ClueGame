@@ -12,3 +12,11 @@ Room, Recreation Room, R
 // other spaces on the board
 Space, Unused, X
 Space, Walkway, W
+
+// characters
+Character, Luigi, Green
+Character, Princess Peach, Pink
+Character, King Boo, Purple
+Character, Mario, Red
+Character, Professor E. Gadd, White
+Character, Bowser, Yellow
