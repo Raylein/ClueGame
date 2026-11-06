@@ -150,35 +150,51 @@ public class Board {
 
     //loads up the config
     public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
+        availableDeck = new Card[21];
+        roomCards = new Card[10];
+        peopleCards = new Card[6];
+        weaponCards = new Card[5];
         roomMap.clear();
         roomInitials.clear();
         try(Scanner sc = new Scanner(new File(setupConfigFile))){
+            int peopleInt=0;
+            int weaponsInt=0;
+            int roomInt=0;
             while (sc.hasNextLine()){
-                int tempInt=0;
                 String line = sc.nextLine();
                 if(line.isEmpty()) continue;
                 if(line.contains("//")) continue;
                 String[] parts = line.split(", ");
                 if((!parts[0].equalsIgnoreCase("Room"))&&(!parts[0].equalsIgnoreCase("Space"))&&
-                        (!parts[0].equalsIgnoreCase("Character"))){
+                        (!parts[0].equalsIgnoreCase("Character"))&&(!parts[0].equalsIgnoreCase("Weapon"))){
                     throw new BadConfigFormatException();
                 }
 
                 if(parts[0].equalsIgnoreCase("Room")||parts[0].equalsIgnoreCase("Space")) {
+                    if(parts[0].equalsIgnoreCase(("Room"))){
+                        roomCards[roomInt] = new Card(parts[1],CardType.ROOM);
+                        roomInt+=1;
+                    }
                     Room room = new Room(parts[1]);
                     roomMap.put(parts[2].charAt(0), room);
                     if (parts[0].equalsIgnoreCase("Room")) {
                         roomInitials.add(parts[2].charAt(0));
                     }
                 }
-                if(parts[0].equalsIgnoreCase("Character")){
-                    if (tempInt==0){
+                else if(parts[0].equalsIgnoreCase("Character")){
+                    if (peopleInt==0){
                         playerCharacter = new HumanPlayer(parts[1],parts[2],0,0);
                     }
                     else{
-                        ComputerPlayer computer = new ComputerPlayer(parts[1],parts[2],tempInt,0);
+                        ComputerPlayer computer = new ComputerPlayer(parts[1],parts[2],peopleInt,0);
                         nonPlayerCharacters.add(computer);
                     }
+                    peopleCards[peopleInt]=new Card (parts[1], CardType.PERSON);
+                    peopleInt +=1;
+                }
+                else if(parts[0].equalsIgnoreCase("Weapon")){
+                    weaponCards[weaponsInt]=new Card(parts[1],CardType.WEAPON);
+                    weaponsInt+=1;
                 }
             }
             sc.close();
@@ -255,6 +271,18 @@ public class Board {
     }
     public Room getRoom(BoardCell cell){
         return cell.getRoom();
+    }
+
+    public Card[] getPeopleCards(){
+        return peopleCards;
+    }
+
+    public Card[] getWeaponCards(){
+        return weaponCards;
+    }
+
+    public Card[] getRoomCards(){
+        return roomCards;
     }
 
     private void DeckSetup(){};

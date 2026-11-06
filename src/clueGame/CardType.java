@@ -1,13 +1,13 @@
 package clueGame;
 
-public enum Cardtype {
+public enum CardType {
     ROOM("Room"),
     PERSON("Person"),
     WEAPON("Weapon");
 
     private String label;
 
-    private Cardtype(String label){
+    private CardType(String label){
         this.label=label;
     }
     public String getLabel(){
