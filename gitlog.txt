@@ -1,0 +1,135 @@
+commit 056a4f30b7796bc1ef1582914205046a3a923a1a
+Author: Raylein <dyerr105@gmail.com>
+Date:   Mon Nov 2 22:55:06 2026 -0600
+
+    LO13A Final commits, done w/ Aiden taking turns
+
+commit 936c0bc2801d80e62aeeb2bc3f0d19511b5371be
+Author: Raylein <dyerr105@gmail.com>
+Date:   Mon Nov 2 13:50:21 2026 -0600
+
+    Made testBadRoomFormat pass
+
+commit c6e0e38376cca34640c3911bb8ea74721bde1269
+Merge: e2e6178 9592be8
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Sat Oct 31 01:48:59 2026 +0000
+
+    Merge branch 'main' of https://github.com/Raylein/LO11A
+
+commit e2e61786f2063e916efc713f14832eec2386134c
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Sat Oct 31 01:41:59 2026 +0000
+
+    Made tests `BoardAdjTargetTest` and `BoardAdjTargetTest306` pass.
+
+commit 9592be87c5255e2cc0c23c75490c502c6f6721b3
+Author: Raylein <dyerr105@gmail.com>
+Date:   Fri Oct 30 17:42:09 2026 -0600
+
+    FINISHED L013A
+    RAAAAAA
+
+commit 505ada283050724619b034211e24af1446ba4f5b
+Merge: c71521a 8408afb
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Fri Oct 30 17:57:28 2026 +0000
+
+    Merge branch 'main' of https://github.com/Raylein/LO11A
+
+commit c71521ad99af0327cbf76ed6af77bdd0b82d52c0
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Fri Oct 30 06:00:12 2026 +0000
+
+    Added a BoardAdjTargetTest306.java and BoardAdjTargetTest.java file for testing board adjacencies in the Clue game
+
+commit 0fe74aae94feb6b4c32067bddd172e392cab9e7f
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Sat Oct 24 05:37:02 2026 +0000
+
+    Added ClueLayout.csv and ClueSetup.txt files to the repository.
+
+commit 8408afb6e378d4cd8e7c4c44212f6f701a28568f
+Author: Raylein <dyerr105@gmail.com>
+Date:   Fri Oct 23 11:54:50 2026 -0600
+
+    Minor update
+
+commit bae7084fc2d41ad205a2ae45598304f479994af9
+Author: Raylein <dyerr105@gmail.com>
+Date:   Thu Oct 22 20:46:31 2026 -0700
+
+    Made edits to all files to get most of the way through initialization. It's not done, but I'm fairly certain it's 75% done
+
+commit ca94e075241fd16c31882ad1d5117b3c14854841
+Author: Raylein <dyerr105@gmail.com>
+Date:   Thu Oct 22 17:55:41 2026 -0700
+
+    Start of LO13A
+
+commit 278071f5244ae229c3d88b947abaefa9c04ea4a1
+Author: Raylein <dyerr105@gmail.com>
+Date:   Sun Oct 18 21:11:01 2026 -0600
+
+    Made working code before finishing the tests. Just reuploading old code.
+
+commit becdc3e60ba3093f887c7ca0c02e234d6ad8253a
+Author: Raylein <dyerr105@gmail.com>
+Date:   Sun Oct 18 21:04:18 2026 -0600
+
+    All tests fail but also are running correctly
+
+commit 5d7c7b3afcdb47174433a37adca1c276e0f93069
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Wed Oct 14 23:29:00 2026 +0000
+
+    Added the final half of the tests in the BoardTestsExp.java file.
+
+commit c048668fc1006a91e5956c53714dbf34e682355a
+Author: Raylein <dyerr105@gmail.com>
+Date:   Wed Oct 14 16:55:55 2026 -0600
+
+    Made tests fore asserting if the AdjList is >=0, therefore existing
+
+commit e3cfa6c2504b359decf5a81a27e150edd9fe4116
+Merge: b61795f a30d5cf
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Wed Oct 14 18:53:28 2026 +0000
+
+    Merge branch 'main' of https://github.com/Raylein/LO11A
+
+commit b61795fc86d0a5e2589ddabc4065319340ae734d
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Wed Oct 14 18:48:06 2026 +0000
+
+    Added code for the TestBoardCell class, still need t add the setters and getters for the room and occupied variables.
+
+commit a30d5cf6be52c0e9412004c08bef3aec01126734
+Author: Raylein <dyerr105@gmail.com>
+Date:   Wed Oct 14 12:44:38 2026 -0600
+
+    Made TestBoard to function for tests
+
+commit e67d559568e80b3cc15ff9949bf73cebc36129a2
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Wed Oct 14 18:38:42 2026 +0000
+
+    Commit to fix issues with the codespace.
+
+commit 82f377c2ba15f8fb0cf22ce4918284e44171b9a9
+Author: Raylein <dyerr105@gmail.com>
+Date:   Wed Oct 14 12:31:21 2026 -0600
+
+    Moved Files around and changed one of them
+
+commit 659d851fa3711c06be561a89835e37e603c32efe
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Wed Oct 14 18:24:38 2026 +0000
+
+    Added the classs files to be edited later on to complete the assignment.
+
+commit 442b41dc848259844a4edb683367f2d67cebe550
+Author: aidenmurphy-a11y <aiden_murphy@mines.edu>
+Date:   Mon Oct 12 14:48:46 2026 -0600
+
+    Initial commit
