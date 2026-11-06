@@ -11,6 +11,7 @@ public class BoardCell {
     private DoorDirection doorDirection = DoorDirection.NONE;
     private Room room;
 
+    //Sorts the cells by rows and columns
     public BoardCell(int row, int column) {
         this.row = row;
         this.column = column;
