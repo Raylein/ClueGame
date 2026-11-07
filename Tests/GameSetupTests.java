@@ -1,7 +1,4 @@
-import clueGame.BadConfigFormatException;
-import clueGame.Board;
-import clueGame.Card;
-import clueGame.Player;
+import clueGame.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,15 +26,6 @@ public class GameSetupTests {
         assertEquals("Mario",peopleCards[3].getCardName());
         assertEquals("Professor E. Gadd",peopleCards[4].getCardName());
         assertEquals("Bowser",peopleCards[5].getCardName());
-    }
-
-    @Test
-    public void loadPeople(){
-        assertNotNull(board.getPlayerCharacter());
-        Set<Player> nonPlayers=board.getNonPlayerCharacters();
-        for(Player p : nonPlayers){
-            assertNotNull(p);
-        }
     }
 
     @Test
@@ -69,8 +57,26 @@ public class GameSetupTests {
     /*Create Player class with human and computer child classes.
     Use people data to instantiate 6 players (1 human and 5 computer)
      */
+    @Test
+    public void loadPeople(){
+        assertNotNull(board.getPlayerCharacter());
+        Set<ComputerPlayer> nonPlayers=board.getNonPlayerCharacters();
+        for(Player p : nonPlayers){
+            assertNotNull(p);
+        }
+    }
 
+    //initial setup has Luigi as the human character. This may change later
+    @Test
+    public void isLuigi(){
+        assertEquals("Luigi",board.getPlayerCharacter().getName());
+    }
 
+    @Test
+    public void fiveComputers(){
+        Set<ComputerPlayer> nonPlayers=board.getNonPlayerCharacters();
+        assertEquals(5,nonPlayers.size());
+    }
     //Create complete deck of cards (weapons, people and rooms)
 
 

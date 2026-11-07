@@ -11,8 +11,8 @@ public class Board {
     private Map<Character,Room> roomMap=new HashMap<>();
     private final Set<Character> roomInitials = new HashSet<>();
     private Card[] availableDeck,peopleCards,weaponCards,roomCards;
-    private Set<Player> nonPlayerCharacters=new HashSet<>();
-    private Player playerCharacter;
+    private Set<ComputerPlayer> nonPlayerCharacters=new HashSet<>();
+    private HumanPlayer playerCharacter;
 
 //Start of singleton pattern
     private static Board theInstance;
@@ -285,11 +285,11 @@ public class Board {
         return roomCards;
     }
 
-    public Player getPlayerCharacter(){
+    public HumanPlayer getPlayerCharacter(){
         return playerCharacter;
     }
 
-    public Set<Player> getNonPlayerCharacters(){
+    public Set<ComputerPlayer> getNonPlayerCharacters(){
         return nonPlayerCharacters;
     }
 
