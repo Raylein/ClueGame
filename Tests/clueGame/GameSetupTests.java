@@ -1,4 +1,6 @@
-import clueGame.*;
+package clueGame;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GameSetupTests {
     private static Board board;
-    @BeforeEach
-    public void setUp() throws FileNotFoundException, BadConfigFormatException{
+    @BeforeAll
+    public static void setUp() throws FileNotFoundException, BadConfigFormatException{
         board = Board.getInstance();
         board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
         board.initialize();
@@ -56,6 +58,12 @@ public class GameSetupTests {
 
     /*Create Player class with human and computer child classes.
     Use people data to instantiate 6 players (1 human and 5 computer)
+     */
+
+    /*
+    When the board is loaded multiple times it adds the characters every time
+    This is fine since we plan on only initiating the board once in actual code
+    Just be wary of what happens when running all other test files at the same time
      */
     @Test
     public void loadPeople(){
