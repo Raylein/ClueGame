@@ -5,10 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameSetupTests {
     private static Board board;
@@ -117,4 +120,35 @@ public class GameSetupTests {
     /*Deal cards to the Answer and the players
     (all cards dealt, players have roughly same # of cards, no card dealt twice)
      */
+    @Test
+    public void dealCards(){
+        List<Player> players = new ArrayList<>();
+        players.add(board.getPlayerCharacter());
+        players.addAll(board.getNonPlayerCharacters());
+        assertEquals(6, players.size());
+        Set<Card> seen = new HashSet<>();
+        int min = Integer.MAX_VALUE, max = 0;
+
+        for (Player p : players){
+            int size = p.getHand().size();
+            min = Math.min(min, size);
+            max = Math.max(max, size);
+            for (Card c : p.getHand()){
+                assertTrue(seen.add(c), "Duplicate card: " + c.getCardName());
+            }
+        }
+
+        Solution sol = board.getSolution();
+        assertNotNull(sol);
+        assertEquals(CardType.PERSON, sol.getPerson().getType());
+        assertEquals(CardType.WEAPON, sol.getWeapon().getType());
+        assertEquals(CardType.ROOM, sol.getRoom().getType());
+        assertTrue(seen.add(sol.getPerson()));
+        assertTrue(seen.add(sol.getWeapon()));
+        assertTrue(seen.add(sol.getRoom()));
+
+        assertEquals(21, seen.size());
+        assertTrue(max-min <= 1);
+    }
+
 }

@@ -19,6 +19,19 @@ public class Solution {
         weapon=weaponCards[card];
         card=new Random().nextInt(roomSize);
         room=roomCards[card];
+
+    }
+
+    public Card getPerson(){
+        return person;
+    }
+
+    public Card getWeapon() {
+        return weapon;
+    }
+
+    public Card getRoom(){
+        return room;
     }
 
 }

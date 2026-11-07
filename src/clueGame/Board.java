@@ -13,6 +13,7 @@ public class Board {
     private Card[] availableDeck,peopleCards,weaponCards,roomCards;
     private Set<ComputerPlayer> nonPlayerCharacters=new HashSet<>();
     private HumanPlayer playerCharacter;
+    private Solution solution;
 
 //Start of singleton pattern
     private static Board theInstance;
@@ -31,6 +32,7 @@ public class Board {
         loadSetupConfig();
         loadLayoutConfig();
         calcAdjacencies();
+        deal();
     }
 //end of singleton pattern
 
@@ -309,5 +311,31 @@ public class Board {
 
     public Card[] returnDeck(){
         return availableDeck;
+    }
+
+    public Solution getSolution(){
+        return solution;
+    }
+
+    public void deal(){
+        solution = new Solution(peopleCards, roomCards, weaponCards);
+
+        List<Player> players = new ArrayList<>();
+        players.add(playerCharacter);
+        players.addAll(nonPlayerCharacters);
+        for (Player p : players){
+            p.getHand().clear();
+        }
+
+        List<Card> remaining = new ArrayList<>(Arrays.asList(availableDeck));
+        remaining.remove(solution.getPerson());
+        remaining.remove(solution.getWeapon());
+        remaining.remove(solution.getRoom());
+        Collections.shuffle(remaining);
+        int i = 0;
+        for (Card c : remaining){
+            players.get(i % players.size()).updateHand(c);
+            i++;
+        }
     }
 }
