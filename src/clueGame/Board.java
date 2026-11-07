@@ -31,7 +31,6 @@ public class Board {
         loadSetupConfig();
         loadLayoutConfig();
         calcAdjacencies();
-
     }
 //end of singleton pattern
 
@@ -197,6 +196,7 @@ public class Board {
                     weaponsInt+=1;
                 }
             }
+            DeckSetup();
             sc.close();
         } catch (BadConfigFormatException e) {
             throw new BadConfigFormatException();
@@ -293,5 +293,21 @@ public class Board {
         return nonPlayerCharacters;
     }
 
-    private void DeckSetup(){};
+    private void DeckSetup(){
+        availableDeck = new Card[21];
+        for(int i=0;i<peopleCards.length;i++){
+            availableDeck[i]=peopleCards[i];
+        }
+        for(int i=0; i<weaponCards.length;i++){
+            availableDeck[i+weaponCards.length+1]=weaponCards[i];
+        }
+        for(int i=0;i<roomCards.length;i++){
+            availableDeck[i+weaponCards.length+peopleCards.length]=
+                    roomCards[i];
+        }
+    }
+
+    public Card[] returnDeck(){
+        return availableDeck;
+    }
 }
