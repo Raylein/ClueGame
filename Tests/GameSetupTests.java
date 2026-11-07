@@ -79,7 +79,33 @@ public class GameSetupTests {
     }
     //Create complete deck of cards (weapons, people and rooms)
 
+    @Test
+    public void completeDeckMade(){
+        Card[] deck = board.returnDeck();
+        assertEquals("Luigi",deck[0].getCardName());
+        assertEquals("Princess Peach",deck[1].getCardName());
+        assertEquals("King Boo",deck[2].getCardName());
+        assertEquals("Mario",deck[3].getCardName());
+        assertEquals("Professor E. Gadd",deck[4].getCardName());
+        assertEquals("Bowser",deck[5].getCardName());
 
+        assertEquals("Mr. L",deck[6].getCardName());
+        assertEquals("Poltergust 3000",deck[7].getCardName());
+        assertEquals("Fire Flower", deck[8].getCardName());
+        assertEquals("Poisoned Mushroom",deck[9].getCardName());
+        assertEquals("Blue Shell",deck[10].getCardName());
+
+        assertEquals("Conservatory",deck[11].getCardName());
+        assertEquals("Kitchen",deck[12].getCardName());
+        assertEquals("Projection Room",deck[13].getCardName());
+        assertEquals("Dining Room",deck[14].getCardName());
+        assertEquals("Laundry Room",deck[15].getCardName());
+        assertEquals("Foyer",deck[16].getCardName());
+        assertEquals("Graveyard",deck[17].getCardName());
+        assertEquals("Bathroom",deck[18].getCardName());
+        assertEquals("Ballroom",deck[19].getCardName());
+        assertEquals("Recreation Room",deck[20].getCardName());
+    }
     /*Deal cards to the Answer and the players
     (all cards dealt, players have roughly same # of cards, no card dealt twice)
      */
