@@ -14,6 +14,7 @@ public class Board {
     private Set<ComputerPlayer> nonPlayerCharacters=new HashSet<>();
     private HumanPlayer playerCharacter;
     private Solution solution;
+    private final List<Player> players = new ArrayList<>();
 
 //Start of singleton pattern
     private static Board theInstance;
@@ -317,6 +318,8 @@ public class Board {
         return solution;
     }
 
+    public List<Player> getPlayers() { return players;}
+
     public void deal(){
         solution = new Solution(peopleCards, roomCards, weaponCards);
 
@@ -337,5 +340,26 @@ public class Board {
             players.get(i % players.size()).updateHand(c);
             i++;
         }
+    }
+
+    public Card handleSuggestion(Solution suggestion,Player suggester){
+        int n = players.size();
+        int start = players.indexOf(suggester);
+        for(int i = 1; i <= n; i++){
+            Player p = players.get(((start+i) % n+n)%n);
+            if (p == suggester){
+                continue;
+            }
+            Card shown = p.disproveSuggestion(suggestion);
+            if(shown != null){
+                suggester.updateSeen(shown);
+                return shown;
+            }
+        }
+        return null;
+    }
+
+    public boolean checkAccusation(Card person, Card weapon, Card room){
+        return solution.getPerson().equals(person) && solution.getWeapon().equals(weapon) && solution.getRoom().equals(room);
     }
 }
