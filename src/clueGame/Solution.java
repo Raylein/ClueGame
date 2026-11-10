@@ -8,6 +8,12 @@ public class Solution {
     private final Card person;
     private final Card weapon;
 
+    public Solution(Card person, Card room, Card weapon) {
+        this.person = person;
+        this.room = room;
+        this.weapon = weapon;
+    }
+
     public Solution(Card[] peopleCards,Card[] roomCards,Card[] weaponCards){
         int peopleSize= peopleCards.length;
         int weaponSize = weaponCards.length;
