@@ -200,6 +200,7 @@ public class Board {
                 }
             }
             DeckSetup();
+            solution = new Solution(peopleCards,roomCards,weaponCards);
             sc.close();
         } catch (BadConfigFormatException e) {
             throw new BadConfigFormatException();
@@ -263,6 +264,10 @@ public class Board {
                 tempRow+=1;
             }
             sc.close();
+            playerCharacter.setCurrentCell(grid[playerCharacter.getRow()][playerCharacter.getColumn()]);
+            for(ComputerPlayer player:nonPlayerCharacters){
+                player.setCurrentCell(grid[player.getRow()][player.getColumn()]);
+            }
         } catch (BadConfigFormatException e){
             throw new BadConfigFormatException();
         }

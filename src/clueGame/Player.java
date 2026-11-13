@@ -8,17 +8,23 @@ import java.util.Set;
 import java.util.Random;
 
 public abstract class Player {
-    private String name;
-    private String color;
+    private String name, color;
     private int row, column;
-    private Set<Card> hand = new HashSet<>();
-    private Set<Card> seen = new HashSet<>();
+    protected Set<Card> hand= new HashSet<>();
+    protected Set<Card> seen = new HashSet<>();
+    protected BoardCell currentCell;
 
     public Player(String name, String color, int row, int column){
         this.name = name;
         this.color = color;
         this.row = row;
         this.column = column;
+    }
+    public void setCurrentCell(BoardCell newCell){
+        currentCell=newCell;
+    }
+    public BoardCell getCurrentCell(){
+        return currentCell;
     }
     public void updateHand(Card card){
         hand.add(card);

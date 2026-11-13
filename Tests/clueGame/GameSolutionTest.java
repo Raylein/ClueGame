@@ -11,7 +11,7 @@ public class GameSolutionTest {
     public static void setUp() throws Exception {
         board = Board.getInstance();
         // Adjust file names/paths to match your project
-        board.setConfigFiles("data/ClueLayout.csv", "data/ClueSetup.txt");
+        board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
         board.initialize();
     }
 
