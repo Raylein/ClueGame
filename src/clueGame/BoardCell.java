@@ -97,4 +97,11 @@ public class BoardCell {
         return this.room;
     }
 
+    public int getRow(){
+        return row;
+    }
+    public int getColumn(){
+        return column;
+    }
+
 }
