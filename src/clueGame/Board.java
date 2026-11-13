@@ -158,6 +158,7 @@ public class Board {
         weaponCards = new Card[5];
         roomMap.clear();
         roomInitials.clear();
+        nonPlayerCharacters.clear();
         try(Scanner sc = new Scanner(new File(setupConfigFile))){
             int peopleInt=0;
             int weaponsInt=0;
