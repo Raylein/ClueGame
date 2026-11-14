@@ -3,7 +3,6 @@ package clueGame;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 import org.junit.jupiter.api.*;
-import clueGame.*;
 
 
 public class ComputerAITest {
@@ -18,13 +17,6 @@ public class ComputerAITest {
         board.initialize();
         computers = board.getNonPlayerCharacters().toArray(new ComputerPlayer[0]);
         targets = new BoardCell[3];
-
-        computers[0].updateSeen(board.getPeopleCards()[0]);
-        computers[0].updateSeen(board.getPeopleCards()[1]);
-        computers[0].updateSeen(board.getPeopleCards()[2]);
-        computers[0].updateSeen(board.getWeaponCards()[0]);
-        computers[0].updateSeen(board.getWeaponCards()[1]);
-        computers[0].updateSeen(board.getWeaponCards()[2]);
     }
 
     @Test
@@ -32,6 +24,13 @@ public class ComputerAITest {
         targets[0] = board.getCell(4,4);
         targets[1]=board.getCell(7,8);
         targets[2]=board.getCell(13,4);
+
+        computers[0].updateSeen(board.getPeopleCards()[0]);
+        computers[0].updateSeen(board.getPeopleCards()[1]);
+        computers[0].updateSeen(board.getPeopleCards()[2]);
+        computers[0].updateSeen(board.getWeaponCards()[0]);
+        computers[0].updateSeen(board.getWeaponCards()[1]);
+        computers[0].updateSeen(board.getWeaponCards()[2]);
         BoardCell target = computers[0].selectTarget(targets,board.getRoomCards());
 
         assertTrue(Arrays.asList(targets).contains(target));
@@ -64,4 +63,81 @@ public class ComputerAITest {
         assertTrue(Arrays.asList(newTargets).contains(target));
     }
 
+    @Test
+    public void roomMatchesLocation(){
+        computers[0].updateSeen(board.getPeopleCards()[0]);
+        computers[0].updateSeen(board.getPeopleCards()[1]);
+        computers[0].updateSeen(board.getPeopleCards()[2]);
+        computers[0].updateSeen(board.getWeaponCards()[0]);
+        computers[0].updateSeen(board.getWeaponCards()[1]);
+        computers[0].updateSeen(board.getWeaponCards()[2]);
+        computers[0].updateSeen(board.getRoomCards()[0]);
+        computers[0].updateSeen(board.getRoomCards()[1]);
+
+        Solution suggestion = computers[0].createSuggestion(board.getPeopleCards(),board.getRoomCards(),board.getWeaponCards());
+
+        //All initialized players at the very start are set up to start in Graveyard. This may change later so the test
+        //may change later as a result
+        assertEquals(suggestion.getRoom().getCardName(), board.getCell(0, 0).getRoom().getName());
+    }
+
+    @Test
+    public void onlyOneWeaponAndPerson(){
+        for(int k=0;k<50;k++) {
+            for (int i = 0; i < board.getWeaponCards().length - 1; i++) {
+                computers[0].updateSeen(board.getWeaponCards()[i]);
+            }
+            for (int i = 0; i < board.getPeopleCards().length - 1; i++) {
+                computers[0].updateSeen(board.getPeopleCards()[i]);
+            }
+
+            Solution suggestion = computers[0].createSuggestion(board.getPeopleCards(), board.getRoomCards(), board.getWeaponCards());
+
+            assertEquals(suggestion.getWeapon().getCardName(), board.getWeaponCards()[board.getWeaponCards().length - 1].getCardName());
+
+            assertEquals(suggestion.getPerson().getCardName(), board.getPeopleCards()[board.getPeopleCards().length - 1].getCardName());
+        }
+    }
+
+    @Test
+    public void ManyWeapon(){
+        for(int k=0;k<50;k++) {
+            for (int i = 0; i < board.getWeaponCards().length - 3; i++) {
+                computers[0].updateSeen(board.getWeaponCards()[i]);
+            }
+            for (int i = 0; i < board.getPeopleCards().length - 1; i++) {
+                computers[0].updateSeen(board.getPeopleCards()[i]);
+            }
+
+            Solution suggestion = computers[0].createSuggestion(board.getPeopleCards(), board.getRoomCards(), board.getWeaponCards());
+
+            Set<Card> unseenWeapons = new HashSet<>();
+            unseenWeapons.add(board.getWeaponCards()[board.getWeaponCards().length - 3]);
+            unseenWeapons.add(board.getWeaponCards()[board.getWeaponCards().length - 2]);
+            unseenWeapons.add(board.getWeaponCards()[board.getWeaponCards().length - 1]);
+
+            assertTrue(unseenWeapons.contains(suggestion.getWeapon()));
+        }
+    }
+
+    @Test
+    public void ManyPeople() {
+        for(int k=0;k<50;k++) {
+            for (int i = 0; i < board.getWeaponCards().length - 1; i++) {
+                computers[0].updateSeen(board.getWeaponCards()[i]);
+            }
+            for (int i = 0; i < board.getPeopleCards().length - 3; i++) {
+                computers[0].updateSeen(board.getPeopleCards()[i]);
+            }
+
+            Solution suggestion = computers[0].createSuggestion(board.getPeopleCards(), board.getRoomCards(), board.getWeaponCards());
+
+            Set<Card> unseenPeople = new HashSet<>();
+            unseenPeople.add(board.getPeopleCards()[board.getPeopleCards().length - 3]);
+            unseenPeople.add(board.getPeopleCards()[board.getPeopleCards().length - 2]);
+            unseenPeople.add(board.getPeopleCards()[board.getPeopleCards().length - 1]);
+
+            assertTrue(unseenPeople.contains(suggestion.getPerson()));
+        }
+    }
 }

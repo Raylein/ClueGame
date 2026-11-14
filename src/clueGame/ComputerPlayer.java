@@ -1,14 +1,43 @@
 package clueGame;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class ComputerPlayer extends Player{
     public ComputerPlayer(String name, String color, int row, int column) {
         super(name, color, row, column);
     }
 
-    public Solution createSuggestion(Card player,Card room, Card weapon){
+    public Solution createSuggestion(Card[] players,Card[] rooms, Card weapons[]){
+        Room thisRoom = currentCell.getRoom();
+        Card room = null;
+        for(Card card : rooms){
+            if(thisRoom.getName().equals(card.getCardName())){
+                room = card;
+            }
+        }
+        Set<Card> play = new HashSet<>();
+        for(Card card : players){
+            if(!seen.contains(card)){
+                play.add(card);
+            }
+        }
+
+        Card[] Play = play.toArray(new Card[0]);
+        Card player = Play[new Random().nextInt(Play.length)];
+
+        Set<Card> weap = new HashSet<>();
+        for(Card card : weapons){
+            if(!seen.contains(card)){
+                weap.add(card);
+            }
+        }
+
+        Card[] Weap = weap.toArray(new Card[0]);
+        Card weapon = Weap[new Random().nextInt(Weap.length)];
+
         return new Solution(player,room,weapon);
     }
 
