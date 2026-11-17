@@ -140,4 +140,6 @@ public class ComputerAITest {
             assertTrue(unseenPeople.contains(suggestion.getPerson()));
         }
     }
+
+
 }
