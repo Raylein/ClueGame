@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -10,6 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 public class GameControlPanel extends JFrame {
+    private JTextField textField1, textField2, textField3, textField4;
+
     public GameControlPanel(){
         setTitle("Game Control");
         setSize(1000,450);
@@ -20,14 +23,14 @@ public class GameControlPanel extends JFrame {
 
         JPanel panel1 = new JPanel(new BorderLayout());
         JLabel label1 = new JLabel("Whose turn?");
-        JTextField textField1 = new JTextField("Luigi");
+        textField1 = new JTextField("Luigi");
         textField1.setEditable(false);
         panel1.add(label1,BorderLayout.NORTH);
         panel1.add(textField1,BorderLayout.CENTER);
 
         JPanel panel2 = new JPanel(new BorderLayout());
         JLabel label2 = new JLabel("Roll:");
-        JTextField textField2 = new JTextField("5");
+        textField2 = new JTextField("5");
         textField2.setEditable(false);
         JPanel labelTextPanel = new JPanel(new BorderLayout());
         labelTextPanel.add(label2, BorderLayout.WEST);
@@ -56,7 +59,7 @@ public class GameControlPanel extends JFrame {
         JPanel bottomLeft = new JPanel(new BorderLayout());
         JLabel label3 = new JLabel("Guess");
 
-        JTextField textField3 = new JTextField("I have no guess!");
+        textField3 = new JTextField("I have no guess!");
         textField3.setEditable(false);
 
         bottomLeft.add(label3,BorderLayout.NORTH);
@@ -64,7 +67,7 @@ public class GameControlPanel extends JFrame {
 
         JPanel bottomRight = new JPanel(new BorderLayout());
         JLabel label4 = new JLabel("Guess Result");
-        JTextField textField4 = new JTextField("So you have nothing?");
+        textField4 = new JTextField("So you have nothing?");
         textField4.setEditable(false);
 
         bottomRight.add(label4,BorderLayout.NORTH);
@@ -81,7 +84,58 @@ public class GameControlPanel extends JFrame {
         setVisible(true);
     }
 
+    private static Color toColor(String name){
+        if (name == null) return Color.LIGHT_GRAY;
+        switch (name.trim().toLowerCase()) {
+            case "red":     return Color.RED;
+            case "yellow":  return Color.YELLOW;
+            case "white":   return Color.WHITE;
+            case "green":   return Color.GREEN;
+            case "blue":    return Color.BLUE;
+            case "purple":  return new Color(128, 0, 128);   // not a java.awt.Color constant
+            case "orange":  return Color.ORANGE;
+            case "pink":    return Color.PINK;
+            case "black":   return Color.BLACK;
+            case "gray":
+            case "grey":    return Color.GRAY;
+            case "cyan":    return Color.CYAN;
+            case "magenta": return Color.MAGENTA;
+            default:
+                try {
+                    return Color.decode(name.trim());        // allows "#800080" style values
+                } catch (NumberFormatException e) {
+                    return Color.LIGHT_GRAY;
+                }
+        }
+    }
+
+    public void setTurn(Player player){
+        textField1.setText(player.getName());
+        Color bg = toColor(player.getColor());
+        textField1.setBackground(bg);
+        double brightness = 0.299*bg.getRed() + 0.587*bg.getGreen() + 0.114*bg.getBlue();
+        textField1.setForeground(brightness < 128 ? Color.WHITE : Color.BLACK);
+
+    }
+
+    public void setRoll(int roll){
+        textField2.setText(String.valueOf(roll));
+    }
+
+    public void setGuess(String guess){
+        textField3.setText(guess);
+    }
+
+    public void setGuessResult(String result){
+        textField4.setText(result);
+    }
+
     public static void main(String[] args){
-        new GameControlPanel();
+
+        GameControlPanel panel = new GameControlPanel();
+        panel.setTurn(new ComputerPlayer("Mario", "Magenta", 0,0));
+        panel.setRoll(3);
+        panel.setGuess("I have no guess!");
+        panel.setGuessResult("So you have nothing?");
     }
 }

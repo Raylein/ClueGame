@@ -33,7 +33,7 @@ public class Board {
         loadSetupConfig();
         loadLayoutConfig();
         calcAdjacencies();
-        deal();
+        //deal();
     }
 //end of singleton pattern
 
