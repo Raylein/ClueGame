@@ -9,10 +9,21 @@ public class Card {
         this.type = type;
     }
 
-    public boolean equals (Card target){
-        return target != null
-                && cardName.equals(target.cardName)
-                && type == target.type;
+    @Override
+    public boolean equals (Object o){
+       if (this == o){
+           return true;
+       }
+        if (!(o instanceof Card)) {
+            return false;
+        }
+        Card c = (Card) o;
+        return cardName.equals(c.cardName) && type == c.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(cardName, type);
     }
 
     public String getCardName() {

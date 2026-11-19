@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ComputerPlayer extends Player{
     public ComputerPlayer(String name, String color, int row, int column) {
@@ -42,32 +44,17 @@ public class ComputerPlayer extends Player{
     }
 
     public BoardCell selectTarget(BoardCell[] targets, Card[] roomDeck){
-        int i=0;
-       for(BoardCell target:targets){
-           if((target.getInitial()!='W') && (target.getInitial() !='X')){
-               break;
-           }
-           if(i>=targets.length-1){
-               int t = new Random().nextInt(targets.length);
-               return targets[t];
-           }
-           i+=1;
-       }
-
-        for (Card card : roomDeck) {
-            if (card.getCardName().equals(currentCell.getRoom().getName())) {
-                if (seen.contains(card)) {
-                    BoardCell[] newTargets = new BoardCell[targets.length+1];
-                    for(int j=0; j<targets.length;j++){
-                        newTargets[j] = targets[j];
-                    }
-                    newTargets[targets.length]=currentCell;
-                    int target = new Random().nextInt(newTargets.length);
-                    return newTargets[target];
+        List<BoardCell> unseenRooms = new ArrayList<>();
+        for (BoardCell t : targets) {
+            if (!t.getIsRoom()) continue;
+            for (Card card : roomDeck) {
+                if (card.getCardName().equals(t.getRoom().getName()) && !seen.contains(card)) {
+                    unseenRooms.add(t);
+                    break;
                 }
             }
         }
-        return currentCell;
+        List<BoardCell> pool = unseenRooms.isEmpty() ? Arrays.asList(targets) : unseenRooms;
+        return pool.get(new Random().nextInt(pool.size()));
     }
-
 }

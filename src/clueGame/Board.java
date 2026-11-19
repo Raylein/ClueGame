@@ -11,7 +11,7 @@ public class Board {
     private Map<Character,Room> roomMap=new HashMap<>();
     private final Set<Character> roomInitials = new HashSet<>();
     private Card[] availableDeck,peopleCards,weaponCards,roomCards;
-    private Set<ComputerPlayer> nonPlayerCharacters=new HashSet<>();
+    private Set<ComputerPlayer> nonPlayerCharacters=new LinkedHashSet<>();
     private HumanPlayer playerCharacter;
     private Solution solution;
     private final List<Player> players = new ArrayList<>();
@@ -33,7 +33,7 @@ public class Board {
         loadSetupConfig();
         loadLayoutConfig();
         calcAdjacencies();
-        //deal();
+        deal();
     }
 //end of singleton pattern
 
@@ -159,6 +159,7 @@ public class Board {
         roomMap.clear();
         roomInitials.clear();
         nonPlayerCharacters.clear();
+
         try(Scanner sc = new Scanner(new File(setupConfigFile))){
             int peopleInt=0;
             int weaponsInt=0;
@@ -302,6 +303,8 @@ public class Board {
         return nonPlayerCharacters;
     }
 
+
+
     private void DeckSetup(){
         availableDeck = new Card[21];
         for(int i=0;i<peopleCards.length;i++){
@@ -329,7 +332,7 @@ public class Board {
     public void deal(){
         solution = new Solution(peopleCards, roomCards, weaponCards);
 
-        List<Player> players = new ArrayList<>();
+        players.clear();
         players.add(playerCharacter);
         players.addAll(nonPlayerCharacters);
         for (Player p : players){
