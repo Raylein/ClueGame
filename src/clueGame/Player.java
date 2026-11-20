@@ -1,11 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Random;
+import java.util.*;
 
 public abstract class Player {
     private String name, color;
@@ -13,6 +9,7 @@ public abstract class Player {
     protected Set<Card> hand= new HashSet<>();
     protected Set<Card> seen = new HashSet<>();
     protected BoardCell currentCell;
+    private Map<Card, Player> seenBy = new HashMap<>();
 
     public Player(String name, String color, int row, int column){
         this.name = name;
@@ -73,6 +70,15 @@ public abstract class Player {
             return null;
         }
         return matches.get(new Random().nextInt(matches.size()));
+    }
+
+    public void updateSeen(Card card, Player player) {
+        seen.add(card);
+        seenBy.put(card, player);
+    }
+
+    public Map<Card, Player> getSeenBy() {
+        return seenBy;
     }
 
 }
