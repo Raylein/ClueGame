@@ -1,5 +1,7 @@
 
-package clueGame;
+package clueGame.screen;
+
+import clueGame.*;
 
 import java.awt.*;
 import javax.swing.*;
@@ -97,7 +99,7 @@ public class ClueCardPanel extends JPanel {
             case "pink":
                 return Color.PINK;
             case "purple":
-                return Color.MAGENTA;
+                return new Color(128, 0, 128);
             case "red":
                 return Color.RED;
             case "white":
