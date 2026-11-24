@@ -35,6 +35,18 @@ public class ClueGame extends JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        SwingUtilities.invokeLater(() -> new ClueGame(board).setVisible(true));
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Welcome to Clue!\n\nSolve the mystery and find the culprit!",
+                    "Welcome to Clue",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            ClueGame game = new ClueGame(board);
+            game.setVisible(true);
+
+            board.startGame();
+        });
     }
 }

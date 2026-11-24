@@ -1,8 +1,12 @@
 package clueGame;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Board extends JPanel {
     private final Set<BoardCell> targets = new HashSet<>();
@@ -16,6 +20,14 @@ public class Board extends JPanel {
     private HumanPlayer playerCharacter;
     private Solution solution;
     private final List<Player> players = new ArrayList<>();
+
+    private int currentPlayerIndex = 0;
+    private int currentRoll = 0;
+    private boolean waitingForHumanMove = false;
+    private boolean gameStarted = false;
+    private boolean humanMoveComplete = false;
+
+    private static final Random RANDOM = new Random();
 
 //Start of singleton pattern
     private static Board theInstance;
@@ -35,6 +47,13 @@ public class Board extends JPanel {
         loadLayoutConfig();
         calcAdjacencies();
         deal();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleBoardClick(e.getX(), e.getY());
+            }
+        });
     }
 //end of singleton pattern
 
@@ -350,6 +369,7 @@ public class Board extends JPanel {
             players.get(i % players.size()).updateHand(c);
             i++;
         }
+        updateOccupancy();
     }
 
     public Card handleSuggestion(Solution suggestion,Player suggester){
@@ -371,5 +391,195 @@ public class Board extends JPanel {
 
     public boolean checkAccusation(Card person, Card weapon, Card room){
         return solution.getPerson().equals(person) && solution.getWeapon().equals(weapon) && solution.getRoom().equals(room);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.setFont(new Font("Arial", Font.BOLD, 12));
+        if (grid == null) {
+            return;
+        }
+
+        int cellWidth = getWidth() / numColumns;
+        int cellHeight = getHeight() / numRows;
+
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numColumns; col++) {
+                grid[row][col].draw(g, col * cellWidth, row * cellHeight,
+                        cellWidth, cellHeight);
+            }
+        }
+
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numColumns; col++) {
+                BoardCell cell = grid[row][col];
+
+                if (cell.isLabel()) {
+                    String roomName = cell.getRoom().getName();
+                    g.setColor(Color.BLACK);
+                    g.drawString(roomName, col * cellWidth + 2,
+                            row * cellHeight + cellHeight / 2);
+                }
+            }
+        }
+
+        for (Player player : players) {
+            player.draw(g, cellWidth, cellHeight);
+        }
+    }
+
+    public void startGame() {
+        if (gameStarted || players.isEmpty()) {
+            return;
+        }
+
+        gameStarted = true;
+        currentPlayerIndex = 0;
+
+        startTurn();
+    }
+    private void startTurn() {
+        if (players.isEmpty()) {
+            return;
+        }
+
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        currentRoll = RANDOM.nextInt(6) + 1;
+
+        calcTargets(currentPlayer.getCurrentCell(), currentRoll);
+
+        // Clear old highlights
+        for (BoardCell[] row : grid) {
+            for (BoardCell cell : row) {
+                cell.setHighlighted(false);
+            }
+        }
+
+        if (currentPlayer instanceof HumanPlayer) {
+            waitingForHumanMove = true;
+            humanMoveComplete = false;
+
+            // Highlight legal destinations
+            for (BoardCell cell : targets) {
+                cell.setHighlighted(true);
+            }
+        } else {
+            waitingForHumanMove = false;
+            humanMoveComplete = true;
+
+            // Computer automatically selects a legal destination
+            if (!targets.isEmpty()) {
+                List<BoardCell> possibleMoves = new ArrayList<>(targets);
+
+                BoardCell destination =
+                        possibleMoves.get(RANDOM.nextInt(possibleMoves.size()));
+
+                movePlayer(currentPlayer, destination);
+            }
+        }
+
+        repaint();
+    }
+
+    private void movePlayer(Player player, BoardCell destination) {
+        player.setLocation(destination.getRow(), destination.getColumn());
+
+        // Update occupancy information
+        destination.setOccupied(true);
+
+        repaint();
+
+        updateOccupancy();
+    }
+
+    public void nextPlayer() {
+        if (!gameStarted) {
+            return;
+        }
+
+        // Do not advance before the human finishes moving
+        if (waitingForHumanMove && !humanMoveComplete) {
+            JOptionPane.showMessageDialog(this,
+                    "Please select a valid destination before continuing.");
+            return;
+        }
+
+        // Remove previous highlights
+        for (BoardCell[] row : grid) {
+            for (BoardCell cell : row) {
+                cell.setHighlighted(false);
+            }
+        }
+
+        waitingForHumanMove = false;
+
+        currentPlayerIndex++;
+
+        if (currentPlayerIndex >= players.size()) {
+            currentPlayerIndex = 0;
+        }
+
+        startTurn();
+    }
+
+    private void handleBoardClick(int x, int y) {
+        if (!waitingForHumanMove || humanMoveComplete) {
+            return;
+        }
+
+        int cellWidth = getWidth() / numColumns;
+        int cellHeight = getHeight() / numRows;
+
+        int column = x / cellWidth;
+        int row = y / cellHeight;
+
+        if (row < 0 || row >= numRows ||
+                column < 0 || column >= numColumns) {
+            return;
+        }
+
+        BoardCell selectedCell = grid[row][column];
+
+        // Make sure the selected cell is a legal destination
+        if (!targets.contains(selectedCell)) {
+            JOptionPane.showMessageDialog(this,
+                    "That is not a valid destination. Please select a highlighted cell.");
+            return;
+        }
+
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        movePlayer(currentPlayer, selectedCell);
+
+        // Clear highlights
+        for (BoardCell[] boardRow : grid) {
+            for (BoardCell cell : boardRow) {
+                cell.setHighlighted(false);
+            }
+        }
+
+        humanMoveComplete = true;
+        waitingForHumanMove = false;
+
+        repaint();
+    }
+
+    private void updateOccupancy() {
+        for (BoardCell[] row : grid) {
+            for (BoardCell cell : row) {
+                cell.setOccupied(false);
+            }
+        }
+
+        for (Player player : players) {
+            BoardCell cell = player.getCurrentCell();
+
+            if (cell != null && !cell.getIsRoom()) {
+                cell.setOccupied(true);
+            }
+        }
     }
 }

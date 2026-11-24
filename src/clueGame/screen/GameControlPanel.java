@@ -133,7 +133,7 @@ public class GameControlPanel extends JPanel {
     public static void main(String[] args){
 
         GameControlPanel panel = new GameControlPanel();
-        panel.setTurn(new ComputerPlayer("Mario", "Magenta", 0,0));
+        panel.setTurn(new ComputerPlayer("Mario", "Red", 0,0));
         panel.setRoll(3);
         panel.setGuess("I have no guess!");
         panel.setGuessResult("So you have nothing?");

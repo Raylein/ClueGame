@@ -1,7 +1,8 @@
 package clueGame;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public abstract class Player {
     private String name, color;
@@ -53,9 +54,14 @@ public abstract class Player {
         return hand;
     }
 
-    public void setLocation(int row, int column){
+    public void setLocation(int row, int column) {
         this.row = row;
         this.column = column;
+
+        Board board = Board.getInstance();
+        currentCell = board.getCell(row, column);
+
+        board.repaint();
     }
 
     public Card disproveSuggestion(Solution suggestion){
@@ -79,6 +85,37 @@ public abstract class Player {
 
     public Map<Card, Player> getSeenBy() {
         return seenBy;
+    }
+
+    public void draw(Graphics g, int cellWidth, int cellHeight) {
+        if (currentCell == null) {
+            return;
+        }
+
+        int x = currentCell.getColumn() * cellWidth;
+        int y = currentCell.getRow() * cellHeight;
+
+        g.setColor(getPlayerColor());
+        g.fillOval(x + 2, y + 2, cellWidth - 4, cellHeight - 4);
+    }
+
+    private Color getPlayerColor() {
+        switch (color.toLowerCase()) {
+            case "red":
+                return Color.RED;
+            case "green":
+                return Color.GREEN;
+            case "purple":
+                return new Color(128, 0, 128);
+            case "yellow":
+                return Color.YELLOW;
+            case "white":
+                return Color.LIGHT_GRAY;
+            case "pink":
+                return Color.PINK;
+            default:
+                return Color.WHITE;
+        }
     }
 
 }
