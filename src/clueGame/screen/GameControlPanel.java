@@ -10,11 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-public class GameControlPanel extends JFrame {
+public class GameControlPanel extends JPanel {
     private JTextField textField1, textField2, textField3, textField4;
 
     public GameControlPanel(){
-        setTitle("Game Control");
+        setLayout(new BorderLayout());
         setSize(1000,450);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -137,5 +137,12 @@ public class GameControlPanel extends JFrame {
         panel.setRoll(3);
         panel.setGuess("I have no guess!");
         panel.setGuessResult("So you have nothing?");
+
+
+        JFrame frame = new JFrame("Game Control");
+        frame.add(panel);
+        frame.setSize(1000, 150);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 }

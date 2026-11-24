@@ -1,9 +1,10 @@
 package clueGame;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
-public class Board {
+public class Board extends JPanel {
     private final Set<BoardCell> targets = new HashSet<>();
     private int numRows,numColumns;
     private BoardCell[][] grid;

@@ -2,6 +2,9 @@ package clueGame;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 
 public class BoardCell {
     private final int row, column;
